@@ -9,37 +9,37 @@
         <h1>Mission Details</h1>
         <form id="missionForm">
             <label for="date">Date:</label>
-            <input type="date" id="date" required><br>
+            <input type="date" id="date" name="date" required><br>
             
-            <label for="timeOfMission">Time of Mission:</label>
-            <input type="time" id="timeOfMission" required><br>
+            <label for="time_of_mission">Time of Mission:</label>
+            <input type="time" id="time_of_mission" name="time_of_mission" required><br>
             
-            <label for="totalTime">Total Time:</label>
-            <input type="time" id="totalTime" required><br>
+            <label for="total_time">Total Time:</label>
+            <input type="time" id="total_time" name="total_time" required><br>
             
-            <label for="pilotName">Pilot Name:</label>
-            <input type="text" id="pilotName" required><br>
+            <label for="pilot_name">Pilot Name:</label>
+            <input type="text" id="pilot_name" name="pilot_name" required><br>
             
-            <label for="spotterName">Spotter Name:</label>
-            <input type="text" id="spotterName" required><br>
+            <label for="spotter_name">Spotter Name:</label>
+            <input type="text" id="spotter_name" name="spotter_name" required><br>
             
-            <label for="aircraftName">Aircraft Name:</label>
-            <input type="text" id="aircraftName" required><br>
+            <label for="aircraft_name">Aircraft Name:</label>
+            <input type="text" id="aircraft_name" name="aircraft_name" required><br>
             
-            <label for="aircraftType">Aircraft Type:</label>
-            <input type="text" id="aircraftType" required><br>
+            <label for="aircraft_type">Aircraft Type:</label>
+            <input type="text" id="aircraft_type" name="aircraft_type" required><br>
             
             <label for="mission">Mission:</label>
-            <input type="text" id="mission" required><br>
+            <input type="text" id="mission" name="mission" required><br>
             
-            <label for="maneuversPerformed">Maneuvers Performed:</label>
-            <textarea id="maneuversPerformed" rows="4"></textarea><br>
+            <label for="maneuvers_performed">Maneuvers Performed:</label>
+            <textarea id="maneuvers_performed" name="maneuvers_performed" rows="4"></textarea><br>
             
-            <label for="flightDescription">Flight Description:</label>
-            <textarea id="flightDescription" rows="4"></textarea><br>
+            <label for="flight_description">Flight Description:</label>
+            <textarea id="flight_description" name="flight_description" rows="4"></textarea><br>
             
-            <label for="damageTaken">Damage Taken:</label>
-            <textarea id="damageTaken" rows="4"></textarea><br>
+            <label for="damage_taken">Damage Taken:</label>
+            <textarea id="damage_taken" name="damage_taken" rows="4"></textarea><br>
             
             <button type="submit">Submit</button>
         </form>
@@ -47,26 +47,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const missionForm = document.getElementById('missionForm');
-        
+    
             missionForm.addEventListener('submit', async (event) => {
                 event.preventDefault();
-        
-                const formData = new FormData(missionForm);
-                const formDataObject = {};
-                formData.forEach((value, key) => {
-                    formDataObject[key] = value;
-                });
-        
+    
+                const formData = new URLSearchParams(new FormData(missionForm));
                 try {
                     const response = await fetch('/submit', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/x-www-form-urlencoded'
                         },
-                        body: JSON.stringify(formDataObject)
+                        body: formData
                     });
-        
-                    if (response.ok) {
+    
+                    if (response.status === 200) { // Check for status code
                         alert('Mission details submitted successfully.');
                         missionForm.reset();
                     } else {
@@ -78,7 +73,6 @@
                 }
             });
         });
-        
     </script>
 </body>
 </html>
