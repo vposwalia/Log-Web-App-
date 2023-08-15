@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mission Details</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mission Details</h1>
+        <form id="missionForm">
+            <label for="date">Date:</label>
+            <input type="date" id="date" required><br>
+            
+            <label for="timeOfMission">Time of Mission:</label>
+            <input type="time" id="timeOfMission" required><br>
+            
+            <label for="totalTime">Total Time:</label>
+            <input type="time" id="totalTime" required><br>
+            
+            <label for="pilotName">Pilot Name:</label>
+            <input type="text" id="pilotName" required><br>
+            
+            <label for="spotterName">Spotter Name:</label>
+            <input type="text" id="spotterName" required><br>
+            
+            <label for="aircraftName">Aircraft Name:</label>
+            <input type="text" id="aircraftName" required><br>
+            
+            <label for="aircraftType">Aircraft Type:</label>
+            <input type="text" id="aircraftType" required><br>
+            
+            <label for="mission">Mission:</label>
+            <input type="text" id="mission" required><br>
+            
+            <label for="maneuversPerformed">Maneuvers Performed:</label>
+            <textarea id="maneuversPerformed" rows="4"></textarea><br>
+            
+            <label for="flightDescription">Flight Description:</label>
+            <textarea id="flightDescription" rows="4"></textarea><br>
+            
+            <label for="damageTaken">Damage Taken:</label>
+            <textarea id="damageTaken" rows="4"></textarea><br>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const missionForm = document.getElementById('missionForm');
+        
+            missionForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+        
+                const formData = new FormData(missionForm);
+                const formDataObject = {};
+                formData.forEach((value, key) => {
+                    formDataObject[key] = value;
+                });
+        
+                try {
+                    const response = await fetch('/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formDataObject)
+                    });
+        
+                    if (response.ok) {
+                        alert('Mission details submitted successfully.');
+                        missionForm.reset();
+                    } else {
+                        alert('An error occurred while submitting mission details.');
+                    }
+                } catch (error) {
+                    alert('An error occurred while submitting mission details.');
+                    console.error(error);
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>
