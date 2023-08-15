@@ -41,10 +41,4 @@ MySQL
 EJS (Embedded JavaScript)
 HTML/CSS
 
-**Acknowledgements**
 
-This project was created as a learning exercise and is based on the guidance provided by the OpenAI's GPT-3 model during interactions with the user.
-
-**License**
-
-This project is licensed under the MIT License.
