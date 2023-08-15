@@ -2,56 +2,106 @@
 <html>
 <head>
     <title>Mission Details</title>
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <style>
+       
+        .container {
+            text-align: center;
+            margin: 50px auto;
+            width: 80%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .view-results {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .view-results a {
+            text-decoration: none;
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+        }
+        .view-results a:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Mission Details</h1>
-        <form id="missionForm">
+        <form id="missionForm" action="/submit" method="post">
             <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required><br>
+            <input type="date" id="date" name="date" required>
             
-            <label for="time_of_mission">Time of Mission:</label>
-            <input type="time" id="time_of_mission" name="time_of_mission" required><br>
+            <label for="timeOfMission">Time of Mission:</label>
+            <input type="time" id="time_of_mission" name="time_of_mission" required>
+
+            <label for="totalTime">Total Time:</label>
+            <input type="time" id="total_time" name="total_time" required>
             
-            <label for="total_time">Total Time:</label>
-            <input type="time" id="total_time" name="total_time" required><br>
+            <label for="pilotName">Pilot Name:</label>
+            <input type="text" id="pilot_name" name="pilot_name" required>
             
-            <label for="pilot_name">Pilot Name:</label>
-            <input type="text" id="pilot_name" name="pilot_name" required><br>
+            <label for="spotterName">Spotter Name:</label>
+            <input type="text" id="spotter_name" name="spotter_name" required>
             
-            <label for="spotter_name">Spotter Name:</label>
-            <input type="text" id="spotter_name" name="spotter_name" required><br>
+            <label for="aircraftName">Aircraft Name:</label>
+            <input type="text" id="aircraft_name" name="aircraft_name" required>
             
-            <label for="aircraft_name">Aircraft Name:</label>
-            <input type="text" id="aircraft_name" name="aircraft_name" required><br>
-            
-            <label for="aircraft_type">Aircraft Type:</label>
-            <input type="text" id="aircraft_type" name="aircraft_type" required><br>
+            <label for="aircraftType">Aircraft Type:</label>
+            <input type="text" id="aircraft_type" name="aircraft_type" required>
             
             <label for="mission">Mission:</label>
-            <input type="text" id="mission" name="mission" required><br>
+            <input type="text" id="mission" name="mission" required>
             
-            <label for="maneuvers_performed">Maneuvers Performed:</label>
-            <textarea id="maneuvers_performed" name="maneuvers_performed" rows="4"></textarea><br>
+            <label for="maneuversPerformed">Maneuvers Performed:</label>
+            <textarea id="maneuvers_performed" name="maneuvers_performed" rows="4"></textarea>
             
-            <label for="flight_description">Flight Description:</label>
-            <textarea id="flight_description" name="flight_description" rows="4"></textarea><br>
+            <label for="flightDescription">Flight Description:</label>
+            <textarea id="flight_description" name="flight_description" rows="4"></textarea>
             
             <label for="damage_taken">Damage Taken:</label>
-            <textarea id="damage_taken" name="damage_taken" rows="4"></textarea><br>
+            <textarea id="damage_taken" name="damage_taken" rows="4"></textarea>
             
-            <button type="submit">Submit</button>
+            <button type="submit" id="submitBtn">Submit</button>
         </form>
+        <div class="view-results">
+            <a href="/results">View Results</a>
+        </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const missionForm = document.getElementById('missionForm');
+            const submitBtn = document.getElementById('submitBtn');
     
-            missionForm.addEventListener('submit', async (event) => {
-                event.preventDefault();
-    
+            submitBtn.addEventListener('click', async () => {
                 const formData = new URLSearchParams(new FormData(missionForm));
+    
                 try {
                     const response = await fetch('/submit', {
                         method: 'POST',
@@ -61,9 +111,10 @@
                         body: formData
                     });
     
-                    if (response.status === 200) { // Check for status code
+                    if (response.ok) {
                         alert('Mission details submitted successfully.');
-                        missionForm.reset();
+                        // Refresh the page after successful submission to reset the form
+                        window.location.reload();
                     } else {
                         alert('An error occurred while submitting mission details.');
                     }

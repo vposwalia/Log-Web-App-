@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mission Details - Results</title>
+    <style>
+      
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mission Details - Results</h1>
+    <table>
+        <tr>
+            <th><a href="/results?sort=id&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">ID</a></th>
+            <th><a href="/results?sort=date&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Date</a></th>
+            <th><a href="/results?sort=time_of_mission&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Time of Mission</a></th>
+            <th><a href="/results?sort=total_time&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Total Time</a></th>
+            <th><a href="/results?sort=pilot_name&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Pilot Name</a></th>
+            <th><a href="/results?sort=spotter_name&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Spotter Name</a></th>
+            <th><a href="/results?sort=aircraft_name&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Aircraft Name</a></th>
+            <th><a href="/results?sort=aircraft_type&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Aircraft Type</a></th>
+            <th><a href="/results?sort=mission&order=<%= sortOrder === 'asc' ? 'desc' : 'asc' %>">Mission</a></th>
+            <th>Maneuvers Performed</th>
+            <th>Flight Description</th>
+            <th>Damage Taken</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+        <% for (const result of results) { %>
+            <tr>
+                <td><%= result.id %></td>
+                <td><%= result.date.toISOString().split('T')[0] %></td>
+                <td><%= result.time_of_mission %></td>
+                <td><%= result.total_time %></td>
+                <td><%= result.pilot_name %></td>
+                <td><%= result.spotter_name %></td>
+                <td><%= result.aircraft_name %></td>
+                <td><%= result.aircraft_type %></td>
+                <td><%= result.mission %></td>
+                <td><%= result.maneuvers_performed %></td>
+                <td><%= result.flight_description %></td>
+                <td><%= result.damage_taken %></td>
+                <td><%= result.created_at.toISOString().split('T')[0] + ' ' + result.created_at.toISOString().split('T')[1].split('.')[0] %></td>
+                <td>
+                    <form action="/delete/<%= result.id %>" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+    <div class="back-link">
+        <a href="/">Back to Form</a>
+    </div>
+</body>
+</html>
